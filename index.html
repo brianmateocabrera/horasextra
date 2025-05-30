@@ -18,17 +18,14 @@
                 height: 100%;
                 margin: 0;
             }
-
             body {
                 display: flex;
                 flex-direction: column;
             }
-
             header,
             footer {
                 flex-shrink: 0;
             }
-
             main {
                 flex-grow: 1;
                 overflow: hidden;
@@ -37,45 +34,38 @@
                 padding: 1rem;
                 gap: 1rem;
             }
-
             .table-container {
                 flex-grow: 1;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
             }
-
             .scroll-area {
                 overflow-y: auto;
                 flex-grow: 1;
-                max-height: calc(100vh - 350px); /* Altura dinámica ajustada */
+                max-height: calc(100vh - 350px);
             }
-
             .mensaje-vacio {
                 text-align: center;
                 padding: 2rem;
                 color: #6c757d;
                 font-style: italic;
             }
-
             table {
                 width: 100%;
                 table-layout: fixed;
             }
-
             thead th {
                 position: sticky;
                 top: 0;
                 background-color: #f8f9fa;
                 z-index: 2;
             }
-
             .editable-cell {
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
             }
-
             .editable-cell input[type="time"] {
                 border: none;
                 background: transparent;
@@ -85,17 +75,13 @@
                 -moz-appearance: none;
                 appearance: none;
             }
-
-            /* Ocultar íconos de desplegable del input time */
             input[type="time"]::-webkit-calendar-picker-indicator {
                 display: none;
                 -webkit-appearance: none;
             }
-
             input[type="time"]::-ms-clear {
                 display: none;
             }
-
             input[type="time"]:focus {
                 outline: none;
                 background-color: #f0f0f0;
@@ -103,8 +89,16 @@
         </style>
     </head>
     <body>
-        <header class="bg-primary text-white p-3">
-            <h1 class="h5 m-0">Planilla de Horas</h1>
+        <header
+            class="bg-primary text-white p-3 d-flex justify-content-between align-items-center"
+        >
+            <h1 class="h5 m-0" id="nombre-usuario-header">Planilla de Horas</h1>
+            <button
+                class="btn btn-sm text-white"
+                onclick="abrirConfiguracion()"
+            >
+                <i class="fa-solid fa-gear fa-lg"></i>
+            </button>
         </header>
 
         <main>
@@ -196,11 +190,150 @@
             </div>
         </main>
 
+        <!-- Modal de configuración -->
+        <div
+            class="modal fade"
+            id="configModal"
+            tabindex="-1"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Configuración</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre de usuario</label>
+                            <input
+                                type="text"
+                                id="input-nombre-usuario"
+                                class="form-control"
+                                placeholder="Tu nombre..."
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cargar archivo CSV</label>
+                            <input
+                                type="file"
+                                accept=".csv"
+                                class="form-control"
+                                onchange="cargarCSV(event)"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <button
+                                class="btn btn-outline-primary w-100"
+                                onclick="descargarCSV()"
+                            >
+                                Descargar datos como CSV
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Cerrar
+                        </button>
+                        <button
+                            class="btn btn-primary"
+                            onclick="guardarConfiguracion()"
+                        >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer class="bg-dark text-white text-center p-2">
             Pie de página
         </footer>
 
         <script>
+            const modal = new bootstrap.Modal(
+                document.getElementById("configModal")
+            );
+
+            function abrirConfiguracion() {
+                document.getElementById("input-nombre-usuario").value =
+                    localStorage.getItem("nombreUsuario") || "";
+                modal.show();
+            }
+
+            function guardarConfiguracion() {
+                const nombre = document
+                    .getElementById("input-nombre-usuario")
+                    .value.trim();
+                if (nombre) {
+                    localStorage.setItem("nombreUsuario", nombre);
+                    document.getElementById(
+                        "nombre-usuario-header"
+                    ).textContent = nombre;
+                }
+                modal.hide();
+            }
+
+            function descargarCSV() {
+                const datos =
+                    JSON.parse(localStorage.getItem("datosHoras")) || [];
+                const filas = [["fecha", "entrada", "salida"]];
+                datos.forEach(reg => {
+                    filas.push([
+                        reg.fecha,
+                        reg.entrada || "",
+                        reg.salida || ""
+                    ]);
+                });
+
+                const contenido = filas.map(f => f.join(",")).join("\n");
+                const blob = new Blob([contenido], { type: "text/csv" });
+                const url = URL.createObjectURL(blob);
+
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "planilla_horas.csv";
+                link.click();
+
+                URL.revokeObjectURL(url);
+            }
+
+            function cargarCSV(event) {
+                const archivo = event.target.files[0];
+                if (!archivo) return;
+
+                const lector = new FileReader();
+                lector.onload = function (e) {
+                    const texto = e.target.result;
+                    const lineas = texto.trim().split("\n").slice(1);
+                    const datos = lineas.map(l => {
+                        const [fecha, entrada, salida] = l.split(",");
+                        return { fecha, entrada, salida };
+                    });
+
+                    localStorage.setItem("datosHoras", JSON.stringify(datos));
+                    generarFilas();
+                    modal.hide();
+                };
+                lector.readAsText(archivo);
+            }
+
+            // Mostrar nombre en el header al iniciar
+            document.addEventListener("DOMContentLoaded", () => {
+                const nombre = localStorage.getItem("nombreUsuario");
+                if (nombre)
+                    document.getElementById(
+                        "nombre-usuario-header"
+                    ).textContent = nombre;
+            });
+
             function obtenerRangoFechas(desde, hasta) {
                 const fechas = [];
                 let actual = new Date(desde);
@@ -228,31 +361,62 @@
                 }
 
                 const fechas = obtenerRangoFechas(desde, hasta);
+                const datos = JSON.parse(
+                    localStorage.getItem("planilla") || "[]"
+                );
 
                 fechas.forEach(fecha => {
+                    const registro = datos.find(d => d.fecha === fecha) || {};
+                    const entrada = registro.entrada || "";
+                    const salida = registro.salida || "";
+
                     const tr = document.createElement("tr");
                     tr.innerHTML = `
-          <td>${fecha}</td>
-          <td>
-            <div class="editable-cell">
-              <input type="time" onchange="calcularHoras()" />
-              <i class="fa-solid fa-pen text-muted"></i>
-            </div>
-          </td>
-          <td>
-            <div class="editable-cell">
-              <input type="time" onchange="calcularHoras()" />
-              <i class="fa-solid fa-pen text-muted"></i>
-            </div>
-          </td>
-          <td class="horas-dia text-center">00:00</td>
-        `;
+        <td>${fecha}</td>
+        <td>
+          <div class="editable-cell">
+            <input type="time" value="${entrada}" onchange="onEditarHora(this)" />
+          </div>
+        </td>
+        <td>
+          <div class="editable-cell">
+            <input type="time" value="${salida}" onchange="onEditarHora(this)" />
+          </div>
+        </td>
+        <td class="horas-dia text-center">00:00</td>
+      `;
                     tbody.appendChild(tr);
                 });
 
                 mensaje.classList.add("d-none");
                 tabla.classList.remove("d-none");
                 calcularHoras();
+            }
+
+            function onEditarHora(input) {
+                const fila = input.closest("tr");
+                const fecha = fila.children[0].textContent;
+                const entrada = fila.querySelectorAll("input")[0].value;
+                const salida = fila.querySelectorAll("input")[1].value;
+
+                guardarDia(fecha, entrada, salida);
+                calcularHoras();
+            }
+
+            function guardarDia(fecha, entrada, salida) {
+                let datos = JSON.parse(
+                    localStorage.getItem("planilla") || "[]"
+                );
+                const existente = datos.find(d => d.fecha === fecha);
+
+                if (existente) {
+                    existente.entrada = entrada;
+                    existente.salida = salida;
+                } else {
+                    datos.push({ fecha, entrada, salida });
+                }
+
+                localStorage.setItem("planilla", JSON.stringify(datos));
             }
 
             function calcularHoras() {
@@ -293,16 +457,23 @@
             }
 
             function actualizarResumen(totalMinutos = 0) {
-                const contratoHoras =
-                    parseFloat(
-                        document.getElementById("horas-contrato").value
-                    ) || 0;
+                const input = document.getElementById("horas-contrato");
+                const contratoHoras = parseFloat(input.value) || 0;
                 const contratoMinutos = contratoHoras * 60;
                 const extra = Math.max(totalMinutos - contratoMinutos, 0);
                 document.getElementById("horas-extra").textContent =
                     minutosAHorasMinutos(extra);
+                localStorage.setItem("horasContrato", contratoHoras); // Guarda horas contrato
             }
+
+            // Al cargar la página
+            window.addEventListener("DOMContentLoaded", () => {
+                const guardado = localStorage.getItem("horasContrato");
+                const input = document.getElementById("horas-contrato");
+                input.value = guardado !== null ? guardado : 160;
+                actualizarResumen();
+            });
         </script>
     </body>
-                </html>
-                
+                                </html>
+    
