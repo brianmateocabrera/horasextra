@@ -3,477 +3,88 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Planilla de Horas</title>
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-            rel="stylesheet"
-        />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <style>
-            html,
-            body {
-                height: 100%;
-                margin: 0;
-            }
-            body {
-                display: flex;
-                flex-direction: column;
-            }
-            header,
-            footer {
-                flex-shrink: 0;
-            }
-            main {
-                flex-grow: 1;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-            }
-            .table-container {
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-            }
-            .scroll-area {
-                overflow-y: auto;
-                flex-grow: 1;
-                max-height: calc(100vh - 350px);
-            }
-            .mensaje-vacio {
-                text-align: center;
-                padding: 2rem;
-                color: #6c757d;
-                font-style: italic;
-            }
-            table {
-                width: 100%;
-                table-layout: fixed;
-            }
-            thead th {
-                position: sticky;
-                top: 0;
-                background-color: #f8f9fa;
-                z-index: 2;
-            }
-            .editable-cell {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-            .editable-cell input[type="time"] {
-                border: none;
-                background: transparent;
-                text-align: center;
-                width: 70px;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-            }
-            input[type="time"]::-webkit-calendar-picker-indicator {
-                display: none;
-                -webkit-appearance: none;
-            }
-            input[type="time"]::-ms-clear {
-                display: none;
-            }
-            input[type="time"]:focus {
-                outline: none;
-                background-color: #f0f0f0;
-            }
-        </style>
+        <title>Registro de Jornada</title>
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <header
-            class="bg-primary text-white p-3 d-flex justify-content-between align-items-center"
-        >
-            <h1 class="h5 m-0" id="nombre-usuario-header">Planilla de Horas</h1>
-            <button
-                class="btn btn-sm text-white"
-                onclick="abrirConfiguracion()"
-            >
-                <i class="fa-solid fa-gear fa-lg"></i>
-            </button>
-        </header>
-
-        <main>
-            <!-- Filtros -->
-            <div class="card">
-                <div class="card-body">
-                    <div class="row text-center align-items-end">
-                        <div class="col-4">
-                            <label class="form-label fw-bold">Desde</label>
-                            <input
-                                type="date"
-                                id="desde"
-                                class="form-control text-center"
-                            />
-                        </div>
-                        <div class="col-4">
-                            <label class="form-label fw-bold">Hasta</label>
-                            <input
-                                type="date"
-                                id="hasta"
-                                class="form-control text-center"
-                            />
-                        </div>
-                        <div class="col-4">
-                            <label class="form-label invisible">Filtrar</label>
-                            <button
-                                class="btn btn-primary w-100"
-                                onclick="generarFilas()"
-                            >
-                                Filtrar
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <div class="card" id="card-top">
+            <div class="card-header">
+                <h2>Registro de horas trabajadas</h2>
             </div>
-
-            <!-- Tabla -->
-            <div class="card table-container">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Planilla de horas</h5>
-                    <div class="scroll-area">
-                        <div id="mensaje-vacio" class="mensaje-vacio">
-                            Seleccione un intervalo de días
-                        </div>
-                        <table
-                            class="table table-bordered table-striped d-none"
-                            id="tabla-principal"
-                        >
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Entrada</th>
-                                    <th>Salida</th>
-                                    <th>Horas</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Resumen -->
-            <div class="card">
-                <div class="card-body">
-                    <div class="row text-center mb-2 fw-bold">
-                        <div class="col">Hs Totales</div>
-                        <div class="col">Hs Contrato</div>
-                        <div class="col">Hs Extra</div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col">
-                            <span id="horas-totales">00:00</span>
-                        </div>
-                        <div class="col">
-                            <input
-                                type="number"
-                                id="horas-contrato"
-                                class="form-control text-center"
-                                placeholder="160"
-                                oninput="actualizarResumen()"
-                            />
-                        </div>
-                        <div class="col">
-                            <span id="horas-extra">00:00</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Modal de configuración -->
-        <div
-            class="modal fade"
-            id="configModal"
-            tabindex="-1"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Configuración</h5>
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                        ></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Nombre de usuario</label>
-                            <input
-                                type="text"
-                                id="input-nombre-usuario"
-                                class="form-control"
-                                placeholder="Tu nombre..."
-                            />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cargar archivo CSV</label>
-                            <input
-                                type="file"
-                                accept=".csv"
-                                class="form-control"
-                                onchange="cargarCSV(event)"
-                            />
-                        </div>
-                        <div class="mb-3">
-                            <button
-                                class="btn btn-outline-primary w-100"
-                                onclick="descargarCSV()"
-                            >
-                                Descargar datos como CSV
-                            </button>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                        >
-                            Cerrar
-                        </button>
-                        <button
-                            class="btn btn-primary"
-                            onclick="guardarConfiguracion()"
-                        >
-                            Guardar
-                        </button>
-                    </div>
-                </div>
+            <div class="card-body">
+                <form>
+                    Empleado/a:
+                    <input id="empleado" type="text" name="empleado" />
+                    <br /><br />
+                    Período: <input id="periodo-inicio" type="date" />-<input
+                        id="periodo-fin"
+                        type="date"
+                    />
+                </form>
             </div>
         </div>
 
-        <footer class="bg-dark text-white text-center p-2">
-            Pie de página
-        </footer>
+        <div class="card-2" id="card-middle">
+            <table>
+                <thead class="card-header">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                        <th>Total</th>
+                        <th>Notas</th>
+                    </tr>
+                </thead>
+                <tbody class="card-body">
+                    <!-- Filas dinámicas generadas con JS -->
+                </tbody>
+            </table>
+        </div>
 
-        <script>
-            const modal = new bootstrap.Modal(
-                document.getElementById("configModal")
-            );
-
-            function abrirConfiguracion() {
-                document.getElementById("input-nombre-usuario").value =
-                    localStorage.getItem("nombreUsuario") || "";
-                modal.show();
-            }
-
-            function guardarConfiguracion() {
-                const nombre = document
-                    .getElementById("input-nombre-usuario")
-                    .value.trim();
-                if (nombre) {
-                    localStorage.setItem("nombreUsuario", nombre);
-                    document.getElementById(
-                        "nombre-usuario-header"
-                    ).textContent = nombre;
-                }
-                modal.hide();
-            }
-
-            function descargarCSV() {
-                const datos =
-                    JSON.parse(localStorage.getItem("datosHoras")) || [];
-                const filas = [["fecha", "entrada", "salida"]];
-                datos.forEach(reg => {
-                    filas.push([
-                        reg.fecha,
-                        reg.entrada || "",
-                        reg.salida || ""
-                    ]);
-                });
-
-                const contenido = filas.map(f => f.join(",")).join("\n");
-                const blob = new Blob([contenido], { type: "text/csv" });
-                const url = URL.createObjectURL(blob);
-
-                const link = document.createElement("a");
-                link.href = url;
-                link.download = "planilla_horas.csv";
-                link.click();
-
-                URL.revokeObjectURL(url);
-            }
-
-            function cargarCSV(event) {
-                const archivo = event.target.files[0];
-                if (!archivo) return;
-
-                const lector = new FileReader();
-                lector.onload = function (e) {
-                    const texto = e.target.result;
-                    const lineas = texto.trim().split("\n").slice(1);
-                    const datos = lineas.map(l => {
-                        const [fecha, entrada, salida] = l.split(",");
-                        return { fecha, entrada, salida };
-                    });
-
-                    localStorage.setItem("datosHoras", JSON.stringify(datos));
-                    generarFilas();
-                    modal.hide();
-                };
-                lector.readAsText(archivo);
-            }
-
-            // Mostrar nombre en el header al iniciar
-            document.addEventListener("DOMContentLoaded", () => {
-                const nombre = localStorage.getItem("nombreUsuario");
-                if (nombre)
-                    document.getElementById(
-                        "nombre-usuario-header"
-                    ).textContent = nombre;
-            });
-
-            function obtenerRangoFechas(desde, hasta) {
-                const fechas = [];
-                let actual = new Date(desde);
-                const fin = new Date(hasta);
-                while (actual <= fin) {
-                    fechas.push(actual.toISOString().split("T")[0]);
-                    actual.setDate(actual.getDate() + 1);
-                }
-                return fechas;
-            }
-
-            function generarFilas() {
-                const desde = document.getElementById("desde").value;
-                const hasta = document.getElementById("hasta").value;
-                const tbody = document.getElementById("tabla-body");
-                const mensaje = document.getElementById("mensaje-vacio");
-                const tabla = document.getElementById("tabla-principal");
-
-                tbody.innerHTML = "";
-
-                if (!desde || !hasta) {
-                    mensaje.classList.remove("d-none");
-                    tabla.classList.add("d-none");
-                    return;
-                }
-
-                const fechas = obtenerRangoFechas(desde, hasta);
-                const datos = JSON.parse(
-                    localStorage.getItem("planilla") || "[]"
-                );
-
-                fechas.forEach(fecha => {
-                    const registro = datos.find(d => d.fecha === fecha) || {};
-                    const entrada = registro.entrada || "";
-                    const salida = registro.salida || "";
-
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-        <td>${fecha}</td>
-        <td>
-          <div class="editable-cell">
-            <input type="time" value="${entrada}" onchange="onEditarHora(this)" />
-          </div>
-        </td>
-        <td>
-          <div class="editable-cell">
-            <input type="time" value="${salida}" onchange="onEditarHora(this)" />
-          </div>
-        </td>
-        <td class="horas-dia text-center">00:00</td>
-      `;
-                    tbody.appendChild(tr);
-                });
-
-                mensaje.classList.add("d-none");
-                tabla.classList.remove("d-none");
-                calcularHoras();
-            }
-
-            function onEditarHora(input) {
-                const fila = input.closest("tr");
-                const fecha = fila.children[0].textContent;
-                const entrada = fila.querySelectorAll("input")[0].value;
-                const salida = fila.querySelectorAll("input")[1].value;
-
-                guardarDia(fecha, entrada, salida);
-                calcularHoras();
-            }
-
-            function guardarDia(fecha, entrada, salida) {
-                let datos = JSON.parse(
-                    localStorage.getItem("planilla") || "[]"
-                );
-                const existente = datos.find(d => d.fecha === fecha);
-
-                if (existente) {
-                    existente.entrada = entrada;
-                    existente.salida = salida;
-                } else {
-                    datos.push({ fecha, entrada, salida });
-                }
-
-                localStorage.setItem("planilla", JSON.stringify(datos));
-            }
-
-            function calcularHoras() {
-                let totalMinutos = 0;
-                const filas = document.querySelectorAll("#tabla-body tr");
-
-                filas.forEach(fila => {
-                    const entrada = fila.querySelectorAll("input")[0].value;
-                    const salida = fila.querySelectorAll("input")[1].value;
-                    const celdaHoras = fila.querySelector(".horas-dia");
-
-                    if (entrada && salida) {
-                        const [h1, m1] = entrada.split(":").map(Number);
-                        const [h2, m2] = salida.split(":").map(Number);
-                        let inicio = h1 * 60 + m1;
-                        let fin = h2 * 60 + m2;
-                        if (fin < inicio) fin += 1440;
-                        const minutos = fin - inicio;
-                        celdaHoras.textContent = minutosAHorasMinutos(minutos);
-                        totalMinutos += minutos;
-                    } else {
-                        celdaHoras.textContent = "00:00";
-                    }
-                });
-
-                document.getElementById("horas-totales").textContent =
-                    minutosAHorasMinutos(totalMinutos);
-                actualizarResumen(totalMinutos);
-            }
-
-            function minutosAHorasMinutos(minutos) {
-                const h = Math.floor(minutos / 60);
-                const m = minutos % 60;
-                return `${String(h).padStart(2, "0")}:${String(m).padStart(
-                    2,
-                    "0"
-                )}`;
-            }
-
-            function actualizarResumen(totalMinutos = 0) {
-                const input = document.getElementById("horas-contrato");
-                const contratoHoras = parseFloat(input.value) || 0;
-                const contratoMinutos = contratoHoras * 60;
-                const extra = Math.max(totalMinutos - contratoMinutos, 0);
-                document.getElementById("horas-extra").textContent =
-                    minutosAHorasMinutos(extra);
-                localStorage.setItem("horasContrato", contratoHoras); // Guarda horas contrato
-            }
-
-            // Al cargar la página
-            window.addEventListener("DOMContentLoaded", () => {
-                const guardado = localStorage.getItem("horasContrato");
-                const input = document.getElementById("horas-contrato");
-                input.value = guardado !== null ? guardado : 160;
-                actualizarResumen();
-            });
+        <div class="card" id="card-bottom">
+            <table class="card-body">
+                <tr>
+                    <td>Hrs. Totales:</td>
+                    <td>Hrs. Contrato:</td>
+                    <td>Hrs. Extra:</td>
+                </tr>
+                <tr>
+                    <td id="total-periodo">00:00</td>
+                    <td>
+                        <input type="number" id="horas-contrato" />
+                    </td>
+                    <td id="horas-extra">00:00</td>
+                </tr>
+            </table>
+        </div>
+        <script src="scripts.js">
+            /* Objetivos principales del script: 1. Generación de filas según el
+            rango de fechas. 2. Cálculo de horas trabajadas por día, incluyendo
+            turno nocturno. 3. Cálculo de totales y horas extra comparando con el
+            contrato. Implementar funcionalidad: 1️⃣ Generar automáticamente las
+            filas de la tabla con los días del período seleccionado de la siguiente
+            forma: 1. Capturar el cambio en los campos de fecha. 2. Validar que
+            ambas fechas estén presentes y sean válidas. 3. Generar una fila para
+            cada día dentro del rango. Formato de las filas de tabla generadas con
+            JS:
+            <tr>
+                <td>/date/</td>
+                <td><input type="time" name="entrada" /></td>
+                <td><input type="time" name="salida" /></td>
+                <td><span>00:00</span></td>
+                <td><input type="text" name="notas" /></td>
+            </tr>
+            4. Insertar esas filas en el
+            <tbody>
+                de la tabla. 2️⃣ Cálculo de horas totales diarias: Cálculo de horas
+                diarias total-dia=salida menos entrada, sí se permite turno nocturno
+                3️⃣ Cálculo de totales y extra: 1. Cálculo de horas totales del
+                período: total-periodo=suma de totales de todos los días 2. Cálculo
+                de horas extra: horas-extra=total-periodo menos horas-contrato
+                Añadir la funcionalidad y devolver la etiqueta
+                <script>
+                     completa y actualizada
+                    */
         </script>
     </body>
-                                </html>
-    
+</html>
