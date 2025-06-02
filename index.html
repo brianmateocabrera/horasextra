@@ -4,17 +4,31 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Registro de Jornada</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        />
         <link rel="stylesheet" href="styles.css" />
     </head>
+
     <body>
         <div class="card" id="card-top">
             <div class="card-header">
-                <h2>Registro de horas trabajadas</h2>
+                <h2>
+                    Registro de horas trabajadas<i
+                        id="btn-opciones"
+                        title="Opciones"
+                        class="fa-solid fa-bars"
+                    ></i>
+                </h2>
             </div>
             <div class="card-body">
                 <form>
-                    Empleado/a:
-                    <input id="empleado" type="text" name="empleado" />
+                    Empleado/a:<input
+                        id="nombre-empleado"
+                        type="text"
+                        name="empleado"
+                    />
                     <br /><br />
                     Período: <input id="periodo-inicio" type="date" />-<input
                         id="periodo-fin"
@@ -56,35 +70,33 @@
                     <td id="horas-extra">00:00</td>
                 </tr>
             </table>
+
+            <!-- Modal de opciones -->
+            <div id="modal-opciones" class="modal">
+                <div class="modal-contenido">
+                    <span class="cerrar" onclick="cerrarModal()">&times;</span>
+                    <h3>Opciones</h3>
+                    <button onclick="capturarYDescargarImagen()">
+                        📸 Guardar imagen
+                    </button>
+                    <button onclick="descargarCSV()">📁 Guardar CSV</button>
+                    <button onclick="descargarJSON()">💾 Guardar JSON</button>
+                    <label class="btn-cargar-json">
+                        📂 Cargar JSON
+                        <input
+                            type="file"
+                            accept="application/json"
+                            onchange="cargarJSONDesdeArchivo(event)"
+                            hidden
+                        />
+                    </label>
+                    <button onclick="mostrarEstadoActual()">
+                        🧠 Mostrar datos en consola
+                    </button>
+                </div>
+            </div>
         </div>
-        <script src="scripts.js">
-            /* Objetivos principales del script: 1. Generación de filas según el
-            rango de fechas. 2. Cálculo de horas trabajadas por día, incluyendo
-            turno nocturno. 3. Cálculo de totales y horas extra comparando con el
-            contrato. Implementar funcionalidad: 1️⃣ Generar automáticamente las
-            filas de la tabla con los días del período seleccionado de la siguiente
-            forma: 1. Capturar el cambio en los campos de fecha. 2. Validar que
-            ambas fechas estén presentes y sean válidas. 3. Generar una fila para
-            cada día dentro del rango. Formato de las filas de tabla generadas con
-            JS:
-            <tr>
-                <td>/date/</td>
-                <td><input type="time" name="entrada" /></td>
-                <td><input type="time" name="salida" /></td>
-                <td><span>00:00</span></td>
-                <td><input type="text" name="notas" /></td>
-            </tr>
-            4. Insertar esas filas en el
-            <tbody>
-                de la tabla. 2️⃣ Cálculo de horas totales diarias: Cálculo de horas
-                diarias total-dia=salida menos entrada, sí se permite turno nocturno
-                3️⃣ Cálculo de totales y extra: 1. Cálculo de horas totales del
-                período: total-periodo=suma de totales de todos los días 2. Cálculo
-                de horas extra: horas-extra=total-periodo menos horas-contrato
-                Añadir la funcionalidad y devolver la etiqueta
-                <script>
-                     completa y actualizada
-                    */
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+        <script src="scripts.js"></script>
     </body>
 </html>
