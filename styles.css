@@ -22,6 +22,7 @@ h2 {
     height: 120px;
     background: var(--primario);
     color: white;
+    text-align: left;
     padding: 10px;
     box-sizing: border-box;
     z-index: 1000;
@@ -41,10 +42,10 @@ h2 {
 }
 
 #card-middle {
-    margin-top: 120px; /* altura del top */
-    margin-bottom: 100px; /* altura del bottom */
-    height: calc(100vh - 220px); /* 100vh - (top + bottom) */
-    overflow-y: auto; /* si tiene contenido largo, se puede hacer scroll */
+    margin-top: 120px;
+    margin-bottom: 100px;
+    height: calc(100vh - 220px);
+    overflow-y: auto;
     background: #ecf0f1;
     padding: 20px;
     box-sizing: border-box;
@@ -55,4 +56,45 @@ form {
 }
 table {
     width: 100%;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Contenido del modal */
+.modal-contenido {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+/* Botón cerrar */
+.cerrar {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Label para botón de carga de archivo */
+.btn-cargar-json {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-top: 10px;
+    background-color: #ccc;
+    border-radius: 4px;
+    cursor: pointer;
 }
