@@ -1,64 +1,185 @@
 :root {
     --primario: #3498db;
-    --secundario: #2ecc71;
+    --secundario: #ecf0f1;
+    --texto-placeholder: #999;
+    --modal-fondo: rgba(0, 0, 0, 0.5);
+    --modal-contenido: #fefefe;
+    --btn-carga-fondo: #ccc;
+    --tabla-par: #f2f2f2;
+    --tabla-impar: #ffffff;
+    --tabla-hover: #d0e6f7;
+    --tabla-borde: #ccc;
+}
+
+/* Tipografía base */
+html {
+    font-size: 100%;
 }
 
 body {
     margin: 0;
     padding: 0;
+    font-size: 1rem;
     font-family: sans-serif;
     text-align: center;
 }
 
+/* Ajustes tipográficos globales */
+input,
+select,
+textarea,
+button,
+label,
+table,
+th,
+td {
+    font-size: 1rem;
+    font-family: inherit;
+    text-align: center;
+}
+
+::placeholder {
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--texto-placeholder);
+}
+
 h2 {
-    margin: 10px;
+  font-size: 2rem;
+    margin: 0.625rem;
+    color: var(--primario);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Responsive font size */
+@media (max-width: 600px) {
+    html {
+        font-size: 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+    html {
+        font-size: 112.5%;
+    }
+}
+
+/* Estructura de tarjetas */
+#card-top,
+#card-bottom {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    background: var(--secundario);
+    color: black;
+    border-color: black;
+    box-sizing: border-box;
+    z-index: 1000;
 }
 
 #card-top {
-    position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 120px;
-    background: var(--primario);
-    color: white;
     text-align: left;
-    padding: 10px;
-    box-sizing: border-box;
-    z-index: 1000;
+    padding: 0.625rem;
+    padding-top: 0;
 }
 
 #card-bottom {
-    position: fixed;
     bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: var(--primario);
-    color: white;
-    padding: 10px;
-    box-sizing: border-box;
-    z-index: 1000;
+    padding: 0.625rem;
 }
 
 #card-middle {
-    margin-top: 120px;
-    margin-bottom: 100px;
-    height: calc(100vh - 220px);
+    margin-top: 0rem;
+    margin-bottom: 6.25rem;
     overflow-y: auto;
-    background: #ecf0f1;
-    padding: 20px;
+    overflow-x: auto;
+    background: var(--secundario);
+    padding: 0rem 0.625rem 0 0.625rem;
     box-sizing: border-box;
 }
 
+/* Formularios */
 form {
     text-align: left;
 }
+
+input {
+    border: none;
+    outline: none;
+    background: none;
+    box-shadow: none;
+    min-width: 2rem;
+    width: auto;
+    box-sizing: content-box;
+}
+
+/* Input personalizado - número */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Input personalizado - fecha */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+/* Botón carga JSON (label estilizado) */
+.btn-cargar-json {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.625rem;
+    background-color: var(--btn-carga-fondo);
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+/* Tabla */
 table {
     width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: var(--primario);
+    color: white;
+    z-index: 10;
+    font-weight: bold;
+    padding: 0.5rem;
+    box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.1);
+}
+
+table td,
+table th {
+    border-bottom: 1px solid var(--tabla-borde);
+    padding: 0.5rem;
+    min-width: 5rem;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--tabla-par);
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: var(--tabla-impar);
+}
+
+table tbody tr:hover {
+    background-color: var(--tabla-hover);
+    cursor: pointer;
 }
 
 /* Modal */
+/* Fondo del modal */
 .modal {
     display: none;
     position: fixed;
@@ -68,33 +189,68 @@ table {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 /* Contenido del modal */
 .modal-contenido {
-    background-color: #fefefe;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    color: #ffffff;
     margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
+    padding: 2rem;
+    width: 18.75rem;
     text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 /* Botón cerrar */
 .cerrar {
-    float: right;
-    font-size: 24px;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
     font-weight: bold;
     cursor: pointer;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    transition: background 0.3s ease;
 }
 
-/* Label para botón de carga de archivo */
-.btn-cargar-json {
-    display: inline-block;
-    padding: 8px 12px;
-    margin-top: 10px;
-    background-color: #ccc;
-    border-radius: 4px;
+.cerrar:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Botones de acción dentro del modal */
+.modal-contenido button {
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+    color: #fff;
     cursor: pointer;
+    font-size: 1rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.modal-contenido button:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
 }
