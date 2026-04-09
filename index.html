@@ -14,13 +14,7 @@
     <body>
         <div class="card" id="card-top">
             <div class="card-header">
-                <h2>
-                    Registro de horas trabajadas<i
-                        id="btn-opciones"
-                        title="Opciones"
-                        class="fa-solid fa-bars"
-                    ></i>
-                </h2>
+                <h2>Registro de horas trabajadas</h2>
             </div>
             <div class="card-body">
                 <form>
@@ -50,88 +44,44 @@
                     </tr>
                 </thead>
                 <tbody class="card-body">
-                    <!-- Filas dinámicas generadas con JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
         <div class="card" id="card-bottom">
             <table class="card-body">
-              <thead class="card-header">
-                <tr>
-                    <th>Hrs. Totales:</th>
-                    <th>Hrs. Contrato:</th>
-                    <th>Hrs. Extra:</th>
-                </tr>
+                <thead class="card-header">
+                    <tr>
+                        <th>Hrs. Totales:</th>
+                        <th>Hrs. Contrato:</th>
+                        <th>Hrs. Extra:</th>
+                    </tr>
+                </thead>
                 <tbody class="card-body">
-                <tr>
-                    <td id="total-periodo">00:00</td>
-                    <td>
-                        <input type="number" id="horas-contrato" />
-                    </td>
-                    <td id="horas-extra">00:00</td>
-                </tr>
+                    <tr>
+                        <td id="total-periodo">00:00</td>
+                        <td>
+                            <input type="number" id="horas-contrato" />
+                        </td>
+                        <td id="horas-extra">00:00</td>
+                    </tr>
+                </tbody>
             </table>
-
-<!-- Modal de opciones -->
-<div id="modal-opciones" class="modal">
-    <div class="modal-contenido">
-        <span class="cerrar" onclick="cerrarModal()">&times;</span>
-        <h3>Opciones</h3>
-
-        <div class="modal-botones">
-            <button onclick="capturarYDescargarImagen()">
-                <i class="fas fa-camera"></i> Guardar imagen
-            </button>
-            <button onclick="descargarCSV()">
-                <i class="fas fa-file-csv"></i> Guardar CSV
-            </button>
-            <button onclick="descargarJSON()">
-                <i class="fas fa-file-code"></i> Guardar JSON
-            </button>
-
-            <label class="btn-cargar-json">
-                <i class="fas fa-folder-open"></i> Cargar JSON
-                <input
-                    type="file"
-                    accept="application/json"
-                    onchange="cargarJSONDesdeArchivo(event)"
-                    hidden
-                />
-            </label>
-
-            <button onclick="mostrarEstadoActual()">
-                <i class="fas fa-terminal"></i> Mostrar datos en consola
-            </button>
         </div>
-    </div>
-</div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
         <script src="scripts.js"></script>
         <script>
             function ajustarMargenes() {
                 const cardTop = document.getElementById("card-top");
                 const cardBottom = document.getElementById("card-bottom");
                 const cardMiddle = document.getElementById("card-middle");
-
                 const alturaTop = cardTop.offsetHeight;
                 const alturaBottom = cardBottom.offsetHeight;
-
-                // Asignar los márgenes dinámicamente
                 cardMiddle.style.marginTop = `${alturaTop}px`;
                 cardMiddle.style.marginBottom = `${alturaBottom}px`;
-
-                // También podés ajustar la altura si querés
-                cardMiddle.style.height = `calc(100vh - ${
-                    alturaTop + alturaBottom
-                }px)`;
+                cardMiddle.style.height = `calc(100vh - ${alturaTop + alturaBottom}px)`;
             }
-
-            // Ejecutar al cargar la página
             window.addEventListener("DOMContentLoaded", ajustarMargenes);
-
-            // Recalcular si cambia el tamaño de la ventana (por ejemplo, en dispositivos móviles)
             window.addEventListener("resize", ajustarMargenes);
         </script>
     </body>
