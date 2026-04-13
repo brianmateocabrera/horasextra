@@ -1,11 +1,13 @@
+/* Importación de Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
 :root {
-    --primario: #3498db;
-    --secundario: #ecf0f1;
-    --texto-placeholder: #999;
-    --tabla-par: #f2f2f2;
-    --tabla-impar: #ffffff;
-    --tabla-hover: #d0e6f7;
-    --tabla-borde: #ccc;
+    --primario: #264395;
+    --blanco: #FFFFFF;
+    --negro: #000000;
+    --gris-claro: #f4f4f4;
+    --tabla-borde: #dddddd;
+    --tabla-hover: #eef2ff;
 }
 
 html { font-size: 100%; }
@@ -14,79 +16,111 @@ body {
     margin: 0;
     padding: 0;
     font-size: 1rem;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-align: center;
+    background-color: var(--blanco);
+    color: var(--negro);
 }
 
 input, select, textarea, button, label, table, th, td {
     font-size: 1rem;
-    font-family: inherit;
+    font-family: 'Montserrat', sans-serif;
     text-align: center;
 }
 
-::placeholder { color: var(--texto-placeholder); }
-
+/* Títulos con peso Bold (700) */
 h2 {
-    font-size: 2rem;
-    margin: 0.625rem;
-    color: var(--primario);
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+    font-size: 1.5rem;
+    margin: 0.5rem;
+    color: var(--blanco);
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-@media (max-width: 600px) { html { font-size: 90%; } }
-@media (min-width: 1200px) { html { font-size: 112.5%; } }
-
+/* Estructura de Tarjetas */
 #card-top, #card-bottom {
     position: fixed;
     left: 0;
     width: 100%;
-    background: var(--secundario);
+    background: var(--primario);
+    color: var(--blanco);
     box-sizing: border-box;
     z-index: 1000;
 }
 
-#card-top { top: 0; text-align: left; padding: 0.625rem; padding-top: 0; }
-#card-bottom { bottom: 0; padding: 0.625rem; }
+#card-top { 
+    top: 0; 
+    text-align: left; 
+    padding: 1rem; 
+    border-bottom: 2px solid var(--blanco);
+}
+
+#card-bottom { 
+    bottom: 0; 
+    padding: 0.5rem; 
+    border-top: 2px solid var(--blanco);
+}
 
 #card-middle {
     overflow-y: auto;
     overflow-x: auto;
-    background: var(--secundario);
-    padding: 0 0.625rem;
+    background: var(--blanco);
     box-sizing: border-box;
 }
 
-form { text-align: left; }
+/* Formularios - Peso Light (300) para etiquetas e inputs */
+form { 
+    text-align: left; 
+    font-weight: 300;
+}
 
 input {
     border: none;
     outline: none;
-    background: none;
-    min-width: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    font-weight: 400;
+    padding: 0.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 0 0.5rem;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-input[type="number"] { -moz-appearance: textfield; }
-input[type="date"]::-webkit-calendar-picker-indicator { display: none; }
-
+/* Tabla Estilo Institucional */
 table { width: 100%; border-collapse: collapse; }
 
 thead th {
     position: sticky;
     top: 0;
     background-color: var(--primario);
-    color: white;
+    color: var(--blanco);
+    font-weight: 700;
+    padding: 0.75rem;
     z-index: 10;
-    padding: 0.5rem;
+    border-bottom: 1px solid var(--blanco);
 }
 
-table td, table th {
+table td {
     border-bottom: 1px solid var(--tabla-borde);
-    padding: 0.5rem;
-    min-width: 5rem;
+    padding: 0.75rem;
+    color: var(--negro);
+    font-weight: 400;
 }
 
-table tbody tr:nth-child(even) { background-color: var(--tabla-par); }
-table tbody tr:nth-child(odd) { background-color: var(--tabla-impar); }
+/* Filas cebra y Hover */
+table tbody tr:nth-child(even) { background-color: var(--gris-claro); }
+table tbody tr:nth-child(odd) { background-color: var(--blanco); }
 table tbody tr:hover { background-color: var(--tabla-hover); }
+
+/* Ajustes para inputs dentro de tablas blancas */
+#card-middle input, #card-bottom input {
+    color: var(--negro);
+    border-bottom: 1px solid var(--primario);
+}
+
+#card-bottom input {
+    color: var(--blanco);
+    border-bottom: 1px solid var(--blanco);
+}
+
+/* Responsividad */
+@media (max-width: 600px) { html { font-size: 90%; } }
