@@ -6,6 +6,7 @@ const horasContratoInput = document.getElementById("horas-contrato");
 const horasExtraEl = document.getElementById("horas-extra");
 const inputEmpleado = document.getElementById("nombre-empleado");
 
+// Listeners principales
 inicio.addEventListener("change", () => { guardarPeriodoEnLS(); generarFilas(); });
 fin.addEventListener("change", () => { guardarPeriodoEnLS(); generarFilas(); });
 
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (inicio.value && fin.value) generarFilas();
 });
 
+// Persistencia
 function obtenerDatosLS() {
     const datos = localStorage.getItem("registro-empleado");
     return datos ? JSON.parse(datos) : { empleado: "", horas_contrato: 0, registro: {}, periodo: {} };
@@ -52,35 +54,43 @@ function actualizarRegistro(fecha, entrada, salida, notas) {
     guardarDatosLS(data);
 }
 
+// Lógica de Interfaz
 function generarFilas() {
     const fechaInicio = new Date(inicio.value);
     const fechaFin = new Date(fin.value);
     const data = obtenerDatosLS();
+
     if (isNaN(fechaInicio.getTime()) || isNaN(fechaFin.getTime()) || fechaFin < fechaInicio) {
         tbody.innerHTML = "";
         return;
     }
+
     tbody.innerHTML = "";
+
     for (let d = new Date(fechaInicio); d <= fechaFin; d.setDate(d.getDate() + 1)) {
         const fechaStr = d.toISOString().split("T")[0];
         const datosDia = data.registro[fechaStr] || { entrada: "", salida: "", notas: "" };
         const tr = document.createElement("tr");
+
         tr.innerHTML = `
-            <td>${fechaStr}</td>
+            <td style="font-weight:700; color:#264395;">${fechaStr}</td>
             <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
             <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
-            <td><span class="total-dia">00:00</span></td>
-            <td><input type="text" name="notas" value="${datosDia.notas}" /></td>
+            <td><span class="total-dia" style="font-weight:700;">00:00</span></td>
+            <td><input type="text" name="notas" value="${datosDia.notas}" placeholder="..." style="text-align:left; width:90%;" /></td>
         `;
+
         const entrada = tr.querySelector('input[name="entrada"]');
         const salida = tr.querySelector('input[name="salida"]');
         const notas = tr.querySelector('input[name="notas"]');
-        const inputs = [entrada, salida];
-        inputs.forEach(i => i.addEventListener("input", () => {
+
+        [entrada, salida].forEach(i => i.addEventListener("input", () => {
             actualizarRegistro(fechaStr, entrada.value, salida.value, notas.value);
             calcularDia(tr);
         }));
+
         notas.addEventListener("input", () => actualizarRegistro(fechaStr, entrada.value, salida.value, notas.value));
+        
         tbody.appendChild(tr);
         calcularDia(tr);
     }
@@ -91,14 +101,17 @@ function calcularDia(tr) {
     const entrada = tr.querySelector('input[name="entrada"]').value;
     const salida = tr.querySelector('input[name="salida"]').value;
     const totalSpan = tr.querySelector(".total-dia");
+
     if (!entrada || !salida) {
         totalSpan.textContent = "00:00";
         calcularTotales();
         return;
     }
+
     const [h1, m1] = entrada.split(":").map(Number);
     const [h2, m2] = salida.split(":").map(Number);
     let t1 = h1 * 60 + m1, t2 = h2 * 60 + m2;
+
     if (t2 < t1) t2 += 1440;
     const diff = t2 - t1;
     totalSpan.textContent = `${Math.floor(diff / 60).toString().padStart(2, "0")}:${(diff % 60).toString().padStart(2, "0")}`;
@@ -111,7 +124,9 @@ function calcularTotales() {
         const [h, m] = el.textContent.split(":").map(Number);
         totalMinutos += h * 60 + m;
     });
+
     totalPeriodoEl.textContent = `${Math.floor(totalMinutos / 60).toString().padStart(2, "0")}:${(totalMinutos % 60).toString().padStart(2, "0")}`;
+    
     const contrato = parseInt(horasContratoInput.value, 10);
     if (!isNaN(contrato)) {
         const extraMin = Math.max(0, totalMinutos - (contrato * 60));
