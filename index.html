@@ -3,11 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Registro de Jornada</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        />
+        <title>Registro de Jornada - Estación Juárez Celman</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <link rel="stylesheet" href="styles.css" />
     </head>
 
@@ -18,23 +15,18 @@
             </div>
             <div class="card-body">
                 <form>
-                    Empleado/a:<input
-                        id="nombre-empleado"
-                        type="text"
-                        name="empleado"
-                    />
-                    <br /><br />
-                    Período: <input id="periodo-inicio" type="date" />-<input
-                        id="periodo-fin"
-                        type="date"
-                    />
+                    <label>Empleado/a:</label>
+                    <input id="nombre-empleado" type="text" name="empleado" placeholder="Nombre completo" />
+                    <br />
+                    <label>Período:</label> 
+                    <input id="periodo-inicio" type="date" /> a <input id="periodo-fin" type="date" />
                 </form>
             </div>
         </div>
 
         <div class="card-2" id="card-middle">
             <table>
-                <thead class="card-header">
+                <thead>
                     <tr>
                         <th>Fecha</th>
                         <th>Entrada</th>
@@ -49,19 +41,19 @@
         </div>
 
         <div class="card" id="card-bottom">
-            <table class="card-body">
-                <thead class="card-header">
+            <table>
+                <thead>
                     <tr>
-                        <th>Hrs. Totales:</th>
-                        <th>Hrs. Contrato:</th>
-                        <th>Hrs. Extra:</th>
+                        <th>Hrs. Totales</th>
+                        <th>Hrs. Contrato</th>
+                        <th>Hrs. Extra</th>
                     </tr>
                 </thead>
-                <tbody class="card-body">
+                <tbody>
                     <tr>
                         <td id="total-periodo">00:00</td>
                         <td>
-                            <input type="number" id="horas-contrato" />
+                            <input type="number" id="horas-contrato" placeholder="0" />
                         </td>
                         <td id="horas-extra">00:00</td>
                     </tr>
@@ -75,11 +67,13 @@
                 const cardTop = document.getElementById("card-top");
                 const cardBottom = document.getElementById("card-bottom");
                 const cardMiddle = document.getElementById("card-middle");
-                const alturaTop = cardTop.offsetHeight;
-                const alturaBottom = cardBottom.offsetHeight;
-                cardMiddle.style.marginTop = `${alturaTop}px`;
-                cardMiddle.style.marginBottom = `${alturaBottom}px`;
-                cardMiddle.style.height = `calc(100vh - ${alturaTop + alturaBottom}px)`;
+                if (cardTop && cardBottom && cardMiddle) {
+                    const alturaTop = cardTop.offsetHeight;
+                    const alturaBottom = cardBottom.offsetHeight;
+                    cardMiddle.style.marginTop = `${alturaTop}px`;
+                    cardMiddle.style.marginBottom = `${alturaBottom}px`;
+                    cardMiddle.style.height = `calc(100vh - ${alturaTop + alturaBottom}px)`;
+                }
             }
             window.addEventListener("DOMContentLoaded", ajustarMargenes);
             window.addEventListener("resize", ajustarMargenes);
