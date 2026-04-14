@@ -3,11 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Registro de Jornada - Estación Juárez Celman</title>
+        <title>Registro de Jornada - Juárez Celman</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <link rel="stylesheet" href="styles.css" />
     </head>
-
     <body>
         <div class="card" id="card-top">
             <div class="card-header">
@@ -16,7 +15,11 @@
             <div class="card-body">
                 <form>
                     <label>Empleado/a:</label>
-                    <input id="nombre-empleado" type="text" name="empleado" placeholder="Nombre completo" />
+                    <input id="nombre-empleado" type="text" placeholder="Nombre completo" />
+                    
+                    <label>Puesto:</label>
+                    <input id="puesto-empleado" type="text" placeholder="Ej: Administrativo" />
+                    
                     <br />
                     <label>Período:</label> 
                     <input id="periodo-inicio" type="date" /> a <input id="periodo-fin" type="date" />
@@ -28,15 +31,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Fecha</th>
+                        <th class="col-fecha">Fecha</th>
                         <th>Entrada</th>
                         <th>Salida</th>
                         <th>Total</th>
                         <th>Notas</th>
                     </tr>
                 </thead>
-                <tbody class="card-body">
-                    </tbody>
+                <tbody class="card-body"></tbody>
             </table>
         </div>
 
@@ -52,9 +54,7 @@
                 <tbody>
                     <tr>
                         <td id="total-periodo">00:00</td>
-                        <td>
-                            <input type="number" id="horas-contrato" placeholder="0" />
-                        </td>
+                        <td><input type="number" id="horas-contrato" placeholder="0" /></td>
                         <td id="horas-extra">00:00</td>
                     </tr>
                 </tbody>
