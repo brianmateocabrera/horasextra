@@ -118,8 +118,8 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
 }
 
 #card-bottom input {
-    color: var(--negro);
-    border-bottom: 1px solid var(--blanco);
+    color: var(--blanco);
+    border-bottom: 1px solid var(--primario);
 }
 
 /* Responsividad */
