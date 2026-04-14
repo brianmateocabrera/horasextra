@@ -1,4 +1,3 @@
-/* Importación de Montserrat */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
 :root {
@@ -10,117 +9,102 @@
     --tabla-hover: #eef2ff;
 }
 
-html { font-size: 100%; }
-
 body {
     margin: 0;
     padding: 0;
-    font-size: 1rem;
     font-family: 'Montserrat', sans-serif;
-    text-align: center;
     background-color: var(--blanco);
     color: var(--negro);
 }
 
-input, select, textarea, button, label, table, th, td {
-    font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-}
-
-/* Títulos con peso Bold (700) */
 h2 {
-    font-size: 1.5rem;
-    margin: 0.5rem;
+    font-size: 1.3rem;
+    margin: 0.5rem 0;
     color: var(--blanco);
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
-/* Estructura de Tarjetas */
 #card-top, #card-bottom {
     position: fixed;
     left: 0;
     width: 100%;
-    background: var(--primario);
+    background-color: var(--primario);
     color: var(--blanco);
     box-sizing: border-box;
     z-index: 1000;
 }
 
-#card-top { 
-    top: 0; 
-    text-align: left; 
-    padding: 1rem; 
-    border-bottom: 2px solid var(--blanco);
-}
+#card-top { top: 0; padding: 1rem; border-bottom: 2px solid var(--blanco); }
+#card-bottom { bottom: 0; padding: 0.5rem; border-top: 2px solid var(--blanco); }
 
-#card-bottom { 
-    bottom: 0; 
-    padding: 0.5rem; 
-    border-top: 2px solid var(--blanco);
-}
+#card-middle { overflow-y: auto; overflow-x: auto; background-color: var(--blanco); }
 
-#card-middle {
-    overflow-y: auto;
-    overflow-x: auto;
-    background: var(--blanco);
-    box-sizing: border-box;
-}
-
-/* Formularios - Peso Light (300) para etiquetas e inputs */
-form { 
-    text-align: left; 
-    font-weight: 300;
-}
-
-input {
+/* Formulario Header */
+form { font-weight: 300; font-size: 0.9rem; text-align: left; }
+#card-top label { font-weight: 700; margin-left: 10px; }
+#card-top label:first-child { margin-left: 0; }
+#card-top input {
     border: none;
-    outline: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: inherit;
-    font-weight: 400;
-    padding: 0.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    margin: 0 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--blanco);
+    border-bottom: 1px solid var(--blanco);
+    margin: 5px;
+    padding: 3px;
+    font-family: inherit;
 }
 
-/* Tabla Estilo Institucional */
+/* Tablas y Alineación */
 table { width: 100%; border-collapse: collapse; }
+table th, table td { text-align: center; vertical-align: middle; }
 
-thead th {
+/* Tabla Central - Columnas Adaptables */
+#card-middle thead th {
     position: sticky;
     top: 0;
     background-color: var(--primario);
     color: var(--blanco);
+    padding: 12px;
     font-weight: 700;
-    padding: 0.75rem;
     z-index: 10;
-    border-bottom: 1px solid var(--blanco);
 }
 
-table td {
-    border-bottom: 1px solid var(--tabla-borde);
-    padding: 0.75rem;
-    color: var(--negro);
-    font-weight: 400;
+#card-middle th:nth-child(1), #card-middle td:nth-child(1),
+#card-middle th:nth-child(2), #card-middle td:nth-child(2),
+#card-middle th:nth-child(3), #card-middle td:nth-child(3),
+#card-middle th:nth-child(4), #card-middle td:nth-child(4) {
+    width: 1%;
+    white-space: nowrap;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-/* Filas cebra y Hover */
-table tbody tr:nth-child(even) { background-color: var(--gris-claro); }
-table tbody tr:nth-child(odd) { background-color: var(--blanco); }
-table tbody tr:hover { background-color: var(--tabla-hover); }
-
-/* Ajustes para inputs dentro de tablas blancas */
-#card-middle input, #card-bottom input {
-    color: var(--negro);
-    border-bottom: 1px solid var(--primario);
+#card-middle th:nth-child(5), #card-middle td:nth-child(5) {
+    width: auto;
+    text-align: left;
 }
 
+#card-middle td { border-bottom: 1px solid var(--tabla-borde); padding: 8px; }
+.col-fecha { color: var(--primario); font-weight: 700; }
+
+input[type="time"] { width: 85px; padding: 4px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
+#card-middle td:last-child input { width: 100%; text-align: left; border: none; background: transparent; font-family: inherit; }
+
+/* Tarjeta Inferior - Centrado */
+#card-bottom table th, #card-bottom table td { border: none; color: var(--blanco); }
+#card-bottom thead th { background-color: rgba(255, 255, 255, 0.1); font-weight: 700; }
+#card-bottom td { font-weight: 700; padding: 10px; }
 #card-bottom input {
-    color: var(--negro);
-    border-bottom: 1px solid var(--blanco);
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--blanco);
+    border: 1px solid var(--blanco);
+    border-radius: 4px;
+    width: 70px;
+    text-align: center;
+    margin: 0 auto;
 }
 
-/* Responsividad */
-@media (max-width: 600px) { html { font-size: 90%; } }
+table tbody tr:nth-child(even) { background-color: var(--gris-claro); }
+table tbody tr:hover { background-color: var(--tabla-hover); }
