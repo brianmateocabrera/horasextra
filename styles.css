@@ -23,10 +23,9 @@ body {
     overflow: hidden;
 }
 
-/* Forzar escalado de fuentes en elementos de formulario */
 input, select, textarea, button, label, span, td, th {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem; /* Crucial para que herede el zoom del HTML */
+    font-size: 1rem;
 }
 
 h2 {
@@ -52,13 +51,13 @@ h2 {
 #card-top { top: 0; padding: 1rem; border-bottom: 2px solid var(--blanco); }
 #card-bottom { bottom: 0; padding: 0.5rem; border-top: 2px solid var(--blanco); }
 
+/* Ajuste del contenedor medio para ocupar todo el espacio */
 #card-middle { 
     overflow-y: auto; 
     overflow-x: auto; 
     background-color: var(--blanco);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Formulario Header */
@@ -75,10 +74,18 @@ form { font-weight: 300; font-size: 0.9rem; text-align: left; }
 }
 
 /* Tablas y Alineación */
-table { width: 100%; border-collapse: collapse; }
-table th, table td { text-align: center; vertical-align: middle; }
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    table-layout: auto;
+}
 
-/* Tabla Central */
+table th, table td { 
+    text-align: center; 
+    vertical-align: middle; 
+}
+
+/* Tabla Central - Columnas Dinámicas */
 #card-middle thead th {
     position: sticky;
     top: 0;
@@ -89,26 +96,26 @@ table th, table td { text-align: center; vertical-align: middle; }
     z-index: 10;
 }
 
+/* Columnas compactas */
 #card-middle th:nth-child(1), #card-middle td:nth-child(1),
 #card-middle th:nth-child(2), #card-middle td:nth-child(2),
 #card-middle th:nth-child(3), #card-middle td:nth-child(3),
 #card-middle th:nth-child(4), #card-middle td:nth-child(4) {
     width: 1%;
     white-space: nowrap;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
+/* Columna de notas expandible */
 #card-middle th:nth-child(5), #card-middle td:nth-child(5) {
     width: auto;
     text-align: left;
 }
 
 #card-middle td { border-bottom: 1px solid var(--tabla-borde); padding: 0.5rem; }
-.col-fecha { color: var(--primario); font-weight: 700; }
-.total-dia { color: var(--primario); font-weight: 700; }
+.col-fecha, .total-dia { color: var(--primario); font-weight: 700; }
 
-/* Inputs dentro de la tabla */
 input[type="time"] { 
     width: auto; 
     padding: 0.2rem; 
@@ -141,11 +148,9 @@ input[type="time"] {
     font-size: 1rem;
 }
 
-/* Efectos de fila */
 table tbody tr:nth-child(even) { background-color: var(--gris-claro); }
 table tbody tr:hover { background-color: var(--tabla-hover); }
 
-/* Ajuste para iconos de calendario nativos en inputs */
 input::-webkit-calendar-picker-indicator {
     filter: invert(0.5);
     cursor: pointer;
