@@ -108,3 +108,8 @@ input[type="time"] { width: 85px; padding: 4px; border: 1px solid #ccc; border-r
 
 table tbody tr:nth-child(even) { background-color: var(--gris-claro); }
 table tbody tr:hover { background-color: var(--tabla-hover); }
+
+.total-dia {
+    color: var(--primario);
+    font-weight: 700;
+}
