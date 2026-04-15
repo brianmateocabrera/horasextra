@@ -11,6 +11,7 @@
 
 html {
     transition: font-size 0.1s ease-out;
+    font-size: 100%;
 }
 
 body {
@@ -19,7 +20,13 @@ body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--blanco);
     color: var(--negro);
-    overflow: hidden; /* Evita scroll doble mientras se ajusta */
+    overflow: hidden;
+}
+
+/* Forzar escalado de fuentes en elementos de formulario */
+input, select, textarea, button, label, span, td, th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem; /* Crucial para que herede el zoom del HTML */
 }
 
 h2 {
@@ -65,14 +72,13 @@ form { font-weight: 300; font-size: 0.9rem; text-align: left; }
     border-bottom: 1px solid var(--blanco);
     margin: 5px;
     padding: 3px;
-    font-family: inherit;
 }
 
 /* Tablas y Alineación */
 table { width: 100%; border-collapse: collapse; }
 table th, table td { text-align: center; vertical-align: middle; }
 
-/* Tabla Central - Columnas Adaptables */
+/* Tabla Central */
 #card-middle thead th {
     position: sticky;
     top: 0;
@@ -89,8 +95,8 @@ table th, table td { text-align: center; vertical-align: middle; }
 #card-middle th:nth-child(4), #card-middle td:nth-child(4) {
     width: 1%;
     white-space: nowrap;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
 
 #card-middle th:nth-child(5), #card-middle td:nth-child(5) {
@@ -98,26 +104,49 @@ table th, table td { text-align: center; vertical-align: middle; }
     text-align: left;
 }
 
-#card-middle td { border-bottom: 1px solid var(--tabla-borde); padding: 8px; }
+#card-middle td { border-bottom: 1px solid var(--tabla-borde); padding: 0.5rem; }
 .col-fecha { color: var(--primario); font-weight: 700; }
 .total-dia { color: var(--primario); font-weight: 700; }
 
-input[type="time"] { width: 85px; padding: 4px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
-#card-middle td:last-child input { width: 100%; text-align: left; border: none; background: transparent; font-family: inherit; }
+/* Inputs dentro de la tabla */
+input[type="time"] { 
+    width: auto; 
+    padding: 0.2rem; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    text-align: center;
+    font-size: 1rem;
+}
 
-/* Tarjeta Inferior - Centrado */
+#card-middle td:last-child input { 
+    width: 100%; 
+    text-align: left; 
+    border: none; 
+    background: transparent; 
+    font-size: 1rem;
+}
+
+/* Tarjeta Inferior */
 #card-bottom table th, #card-bottom table td { border: none; color: var(--blanco); }
 #card-bottom thead th { background-color: rgba(255, 255, 255, 0.1); font-weight: 700; }
-#card-bottom td { font-weight: 700; padding: 10px; }
+#card-bottom td { font-weight: 700; padding: 0.6rem; }
 #card-bottom input {
     background: rgba(255, 255, 255, 0.2);
     color: var(--blanco);
     border: 1px solid var(--blanco);
     border-radius: 4px;
-    width: 70px;
+    width: 4rem;
     text-align: center;
     margin: 0 auto;
+    font-size: 1rem;
 }
 
+/* Efectos de fila */
 table tbody tr:nth-child(even) { background-color: var(--gris-claro); }
 table tbody tr:hover { background-color: var(--tabla-hover); }
+
+/* Ajuste para iconos de calendario nativos en inputs */
+input::-webkit-calendar-picker-indicator {
+    filter: invert(0.5);
+    cursor: pointer;
+}
