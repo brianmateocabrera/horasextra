@@ -10,49 +10,6 @@ const inputPuesto = document.getElementById("puesto-empleado");
 const obtenerDatosLS = () => JSON.parse(localStorage.getItem("registro-empleado")) || { empleado: "", puesto: "", horas_contrato: 0, registro: {}, periodo: {} };
 const guardarDatosLS = (data) => localStorage.setItem("registro-empleado", JSON.stringify(data));
 
-function ajustarMargenes() {
-    const cardTop = document.getElementById("card-top");
-    const cardBottom = document.getElementById("card-bottom");
-    const cardMiddle = document.getElementById("card-middle");
-    if (cardTop && cardBottom && cardMiddle) {
-        const hTop = cardTop.offsetHeight;
-        const hBot = cardBottom.offsetHeight;
-        cardMiddle.style.marginTop = `${hTop}px`;
-        cardMiddle.style.marginBottom = `${hBot}px`;
-        cardMiddle.style.height = `calc(100vh - ${hTop + hBot}px)`;
-    }
-}
-
-function autoAjustarZoom() {
-    const contenedor = document.getElementById("card-middle");
-    const html = document.documentElement;
-    if (!contenedor) return;
-
-    let escala = 100;
-    html.style.fontSize = `${escala}%`;
-    ajustarMargenes();
-
-    // Bucle para achicar si hay scroll
-    while (contenedor.scrollHeight > contenedor.clientHeight && escala > 40) {
-        escala -= 2;
-        html.style.fontSize = `${escala}%`;
-        ajustarMargenes();
-    }
-
-    // Bucle para agrandar si sobra espacio
-    while (contenedor.scrollHeight <= contenedor.clientHeight && escala < 150) {
-        escala += 2;
-        html.style.fontSize = `${escala}%`;
-        ajustarMargenes();
-        if (contenedor.scrollHeight > contenedor.clientHeight) {
-            escala -= 2;
-            html.style.fontSize = `${escala}%`;
-            ajustarMargenes();
-            break;
-        }
-    }
-}
-
 function generarFilas() {
     const fechaInicio = new Date(inicio.value);
     const fechaFin = new Date(fin.value);
@@ -68,7 +25,7 @@ function generarFilas() {
             <td class="col-fecha">${fechaStr}</td>
             <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
             <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
-            <td><span class="total-dia">00:00</span></td>
+            <td><span class="total-dia" style="font-weight:700;">00:00</span></td>
             <td><input type="text" name="notas" value="${datosDia.notas}" placeholder="..." /></td>
         `;
 
@@ -81,7 +38,6 @@ function generarFilas() {
         tbody.appendChild(tr);
         calcularDia(tr);
     }
-    setTimeout(autoAjustarZoom, 100);
 }
 
 function calcularDia(tr) {
@@ -128,14 +84,17 @@ horasContratoInput.addEventListener("input", () => {
     calcularTotales();
 });
 
-[inputEmpleado, inputPuesto].forEach(i => i.addEventListener("input", () => {
+inputEmpleado.addEventListener("input", () => {
     const data = obtenerDatosLS();
     data.empleado = inputEmpleado.value;
+    guardarDatosLS(data);
+});
+
+inputPuesto.addEventListener("input", () => {
+    const data = obtenerDatosLS();
     data.puesto = inputPuesto.value;
     guardarDatosLS(data);
-}));
-
-window.addEventListener("resize", autoAjustarZoom);
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     const data = obtenerDatosLS();
@@ -144,6 +103,5 @@ document.addEventListener("DOMContentLoaded", () => {
     horasContratoInput.value = data.horas_contrato || "";
     if (data.periodo?.inicio) inicio.value = data.periodo.inicio;
     if (data.periodo?.fin) fin.value = data.periodo.fin;
-    ajustarMargenes();
     if (inicio.value && fin.value) generarFilas();
 });
