@@ -25,7 +25,7 @@ function generarFilas() {
             <td class="col-fecha">${fechaStr}</td>
             <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
             <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
-            <td><span class="total-dia" style="font-weight:700;">00:00</span></td>
+            <td><span class="total-dia" style="font-weight:700; color: var(--primario);">00:00</span></td>
             <td><input type="text" name="notas" value="${datosDia.notas}" placeholder="..." /></td>
         `;
 
