@@ -9,23 +9,12 @@
     --tabla-hover: #eef2ff;
 }
 
-html {
-    transition: font-size 0.1s ease-out;
-    font-size: 100%;
-}
-
 body {
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
     background-color: var(--blanco);
     color: var(--negro);
-    overflow: hidden;
-}
-
-input, select, textarea, button, label, span, td, th {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
 }
 
 h2 {
@@ -51,14 +40,7 @@ h2 {
 #card-top { top: 0; padding: 1rem; border-bottom: 2px solid var(--blanco); }
 #card-bottom { bottom: 0; padding: 0.5rem; border-top: 2px solid var(--blanco); }
 
-/* Ajuste del contenedor medio para ocupar todo el espacio */
-#card-middle { 
-    overflow-y: auto; 
-    overflow-x: auto; 
-    background-color: var(--blanco);
-    width: 100%;
-    box-sizing: border-box;
-}
+#card-middle { overflow-y: auto; overflow-x: auto; background-color: var(--blanco); }
 
 /* Formulario Header */
 form { font-weight: 300; font-size: 0.9rem; text-align: left; }
@@ -71,21 +53,14 @@ form { font-weight: 300; font-size: 0.9rem; text-align: left; }
     border-bottom: 1px solid var(--blanco);
     margin: 5px;
     padding: 3px;
+    font-family: inherit;
 }
 
 /* Tablas y Alineación */
-table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    table-layout: auto;
-}
+table { width: 100%; border-collapse: collapse; }
+table th, table td { text-align: center; vertical-align: middle; }
 
-table th, table td { 
-    text-align: center; 
-    vertical-align: middle; 
-}
-
-/* Tabla Central - Columnas Dinámicas */
+/* Tabla Central - Columnas Adaptables */
 #card-middle thead th {
     position: sticky;
     top: 0;
@@ -96,62 +71,40 @@ table th, table td {
     z-index: 10;
 }
 
-/* Columnas compactas */
 #card-middle th:nth-child(1), #card-middle td:nth-child(1),
 #card-middle th:nth-child(2), #card-middle td:nth-child(2),
 #card-middle th:nth-child(3), #card-middle td:nth-child(3),
 #card-middle th:nth-child(4), #card-middle td:nth-child(4) {
     width: 1%;
     white-space: nowrap;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-/* Columna de notas expandible */
 #card-middle th:nth-child(5), #card-middle td:nth-child(5) {
     width: auto;
     text-align: left;
 }
 
-#card-middle td { border-bottom: 1px solid var(--tabla-borde); padding: 0.5rem; }
-.col-fecha, .total-dia { color: var(--primario); font-weight: 700; }
+#card-middle td { border-bottom: 1px solid var(--tabla-borde); padding: 8px; }
+.col-fecha { color: var(--primario); font-weight: 700; }
 
-input[type="time"] { 
-    width: auto; 
-    padding: 0.2rem; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-    text-align: center;
-    font-size: 1rem;
-}
+input[type="time"] { width: 85px; padding: 4px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
+#card-middle td:last-child input { width: 100%; text-align: left; border: none; background: transparent; font-family: inherit; }
 
-#card-middle td:last-child input { 
-    width: 100%; 
-    text-align: left; 
-    border: none; 
-    background: transparent; 
-    font-size: 1rem;
-}
-
-/* Tarjeta Inferior */
+/* Tarjeta Inferior - Centrado */
 #card-bottom table th, #card-bottom table td { border: none; color: var(--blanco); }
 #card-bottom thead th { background-color: rgba(255, 255, 255, 0.1); font-weight: 700; }
-#card-bottom td { font-weight: 700; padding: 0.6rem; }
+#card-bottom td { font-weight: 700; padding: 10px; }
 #card-bottom input {
     background: rgba(255, 255, 255, 0.2);
     color: var(--blanco);
     border: 1px solid var(--blanco);
     border-radius: 4px;
-    width: 4rem;
+    width: 70px;
     text-align: center;
     margin: 0 auto;
-    font-size: 1rem;
 }
 
 table tbody tr:nth-child(even) { background-color: var(--gris-claro); }
 table tbody tr:hover { background-color: var(--tabla-hover); }
-
-input::-webkit-calendar-picker-indicator {
-    filter: invert(0.5);
-    cursor: pointer;
-}
