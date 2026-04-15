@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Registro de Jornada</title>
+        <title>Registro de Jornada - Juárez Celman</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
         <link rel="stylesheet" href="styles.css" />
     </head>
@@ -62,21 +62,5 @@
         </div>
 
         <script src="scripts.js"></script>
-        <script>
-            function ajustarMargenes() {
-                const cardTop = document.getElementById("card-top");
-                const cardBottom = document.getElementById("card-bottom");
-                const cardMiddle = document.getElementById("card-middle");
-                if (cardTop && cardBottom && cardMiddle) {
-                    const alturaTop = cardTop.offsetHeight;
-                    const alturaBottom = cardBottom.offsetHeight;
-                    cardMiddle.style.marginTop = `${alturaTop}px`;
-                    cardMiddle.style.marginBottom = `${alturaBottom}px`;
-                    cardMiddle.style.height = `calc(100vh - ${alturaTop + alturaBottom}px)`;
-                }
-            }
-            window.addEventListener("DOMContentLoaded", ajustarMargenes);
-            window.addEventListener("resize", ajustarMargenes);
-        </script>
     </body>
 </html>
