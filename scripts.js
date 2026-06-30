@@ -10,44 +10,13 @@ const inputPuesto = document.getElementById("puesto-empleado");
 const obtenerDatosLS = () => JSON.parse(localStorage.getItem("registro-empleado")) || { empleado: "", puesto: "", horas_contrato: 0, registro: {}, periodo: {} };
 const guardarDatosLS = (data) => localStorage.setItem("registro-empleado", JSON.stringify(data));
 
-/*function generarFilas() {
-    const fechaInicio = new Date(inicio.value);
-    const fechaFin = new Date(fin.value);
-    const data = obtenerDatosLS();
-    if (isNaN(fechaInicio.getTime()) || isNaN(fechaFin.getTime()) || fechaFin < fechaInicio) return;
-
-    tbody.innerHTML = "";
-    for (let d = new Date(fechaInicio); d <= fechaFin; d.setDate(d.getDate() + 1)) {
-        const fechaStr = d.toISOString().split("T")[0];
-        const datosDia = data.registro[fechaStr] || { entrada: "", salida: "", notas: "" };
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td class="col-fecha">${fechaStr}</td>
-            <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
-            <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
-            <td><span class="total-dia" style="font-weight:700; color: var(--primario);">00:00</span></td>
-            <td><input type="text" name="notas" value="${datosDia.notas}" placeholder="..." /></td>
-        `;
-
-        const ent = tr.querySelector('input[name="entrada"]'), sal = tr.querySelector('input[name="salida"]'), not = tr.querySelector('input[name="notas"]');
-        [ent, sal].forEach(i => i.addEventListener("input", () => {
-            actualizarRegistro(fechaStr, ent.value, sal.value, not.value);
-            calcularDia(tr);
-        }));
-        not.addEventListener("input", () => actualizarRegistro(fechaStr, ent.value, sal.value, not.value));
-        tbody.appendChild(tr);
-        calcularDia(tr);
-    }
-}
-*/
 function generarFilas() {
     const fechaInicio = new Date(inicio.value);
     const fechaFin = new Date(fin.value);
     const data = obtenerDatosLS();
     if (isNaN(fechaInicio.getTime()) || isNaN(fechaFin.getTime()) || fechaFin < fechaInicio) return;
 
-    // Array para mapear los días en español
-    const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const diasSemana = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
     tbody.innerHTML = "";
     // Se usa un bucle basado en strings para evitar problemas de desajuste de zona horaria con UTC
