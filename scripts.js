@@ -8,7 +8,19 @@ const inputEmpleado = document.getElementById("nombre-empleado");
 const inputPuesto = document.getElementById("puesto-empleado");
 
 const obtenerDatosLS = () => JSON.parse(localStorage.getItem("registro-empleado")) || { empleado: "", puesto: "", horas_contrato: 0, registro: {}, periodo: {} };
-const guardarDatosLS = (data) => localStorage.setItem("registro-empleado", JSON.stringify(data));
+let toastTimeout;
+const guardarDatosLS = (data) => {
+    localStorage.setItem("registro-empleado", JSON.stringify(data));
+    
+    const toast = document.getElementById("toast-guardado");
+    if (toast) {
+        toast.style.opacity = "1";
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.style.opacity = "0";
+        }, 2000);
+    }
+};
 
 function generarFilas() {
     const fechaInicio = new Date(inicio.value);
