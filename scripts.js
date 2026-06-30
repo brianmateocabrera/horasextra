@@ -10,7 +10,7 @@ const inputPuesto = document.getElementById("puesto-empleado");
 const obtenerDatosLS = () => JSON.parse(localStorage.getItem("registro-empleado")) || { empleado: "", puesto: "", horas_contrato: 0, registro: {}, periodo: {} };
 const guardarDatosLS = (data) => localStorage.setItem("registro-empleado", JSON.stringify(data));
 
-function generarFilas() {
+/*function generarFilas() {
     const fechaInicio = new Date(inicio.value);
     const fechaFin = new Date(fin.value);
     const data = obtenerDatosLS();
@@ -37,6 +37,48 @@ function generarFilas() {
         not.addEventListener("input", () => actualizarRegistro(fechaStr, ent.value, sal.value, not.value));
         tbody.appendChild(tr);
         calcularDia(tr);
+    }
+}
+*/
+function generarFilas() {
+    const fechaInicio = new Date(inicio.value);
+    const fechaFin = new Date(fin.value);
+    const data = obtenerDatosLS();
+    if (isNaN(fechaInicio.getTime()) || isNaN(fechaFin.getTime()) || fechaFin < fechaInicio) return;
+
+    // Array para mapear los días en español
+    const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+    tbody.innerHTML = "";
+    // Se usa un bucle basado en strings para evitar problemas de desajuste de zona horaria con UTC
+    let d = new Date(fechaInicio.getTime() + fechaInicio.getTimezoneOffset() * 60000);
+    const finTime = new Date(fechaFin.getTime() + fechaFin.getTimezoneOffset() * 60000);
+
+    while (d <= finTime) {
+        const fechaStr = d.toISOString().split("T")[0];
+        const diaNombre = diasSemana[d.getDay()]; // Obtiene el día correspondiente
+        
+        const datosDia = data.registro[fechaStr] || { entrada: "", salida: "", notas: "" };
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="font-weight:600;">${diaNombre}</td> <!-- Celda del día de la semana -->
+            <td class="col-fecha">${fechaStr}</td>
+            <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
+            <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
+            <td><span class="total-dia" style="font-weight:700; color: var(--primario);">00:00</span></td>
+            <td><input type="text" name="notas" value="${datosDia.notas}" placeholder="..." /></td>
+        `;
+
+        const ent = tr.querySelector('input[name="entrada"]'), sal = tr.querySelector('input[name="salida"]'), not = tr.querySelector('input[name="notas"]');
+        [ent, sal].forEach(i => i.addEventListener("input", () => {
+            actualizarRegistro(fechaStr, ent.value, sal.value, not.value);
+            calcularDia(tr);
+        }));
+        not.addEventListener("input", () => actualizarRegistro(fechaStr, ent.value, sal.value, not.value));
+        tbody.appendChild(tr);
+        calcularDia(tr);
+
+        d.setDate(d.getDate() + 1);
     }
 }
 
