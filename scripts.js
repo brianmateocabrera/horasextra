@@ -25,18 +25,21 @@ const diasSemana = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
     while (d <= finTime) {
         const fechaStr = d.toISOString().split("T")[0];
-        const diaNombre = diasSemana[d.getDay()]; // Obtiene el día correspondiente
-        
-        const datosDia = data.registro[fechaStr] || { entrada: "", salida: "", notas: "" };
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td class="col-fecha">${diaNombre}</td> <!-- Celda del día de la semana -->
-            <td class="col-fecha">${fechaStr}</td>
-            <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
-            <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
-            <td><span class="total-dia" style="font-weight:700; color: var(--primario);">00:00</span></td>
-            <td><input type="text" name="notas" value="${datosDia.notas}" placeholder="..." /></td>
-        `;
+const diaNombre = diasSemana[d.getDay()]; 
+
+const [anio, mes, dia] = fechaStr.split("-");
+const fechaFormateada = `${dia}-${mes}`;
+
+const datosDia = data.registro[fechaStr] || { entrada: "", salida: "", notas: "" };
+const tr = document.createElement("tr");
+tr.innerHTML = `
+    <td style="font-weight:600;">${diaNombre}</td>
+    <td class="col-fecha">${fechaFormateada}</td>
+    <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
+    <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
+    <td><span class="total-dia" style="font-weight:700; color: var(--primario);">00:00</span></td>
+    <td><input type="text" name="notas" value="${datosDia.notas}" placeholder="..." /></td>
+`;
 
         const ent = tr.querySelector('input[name="entrada"]'), sal = tr.querySelector('input[name="salida"]'), not = tr.querySelector('input[name="notas"]');
         [ent, sal].forEach(i => i.addEventListener("input", () => {
