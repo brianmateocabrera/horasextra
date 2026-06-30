@@ -33,7 +33,7 @@ const fechaFormateada = `${dia}-${mes}`;
 const datosDia = data.registro[fechaStr] || { entrada: "", salida: "", notas: "" };
 const tr = document.createElement("tr");
 tr.innerHTML = `
-    <td style="font-weight:600;">${diaNombre}</td>
+    <td style="font-weight:600; color: var(--primario);">${diaNombre}</td>
     <td class="col-fecha">${fechaFormateada}</td>
     <td><input type="time" name="entrada" value="${datosDia.entrada}" /></td>
     <td><input type="time" name="salida" value="${datosDia.salida}" /></td>
