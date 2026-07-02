@@ -135,3 +135,21 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("btn-pdf").addEventListener("click", () => {
     window.print();
 });
+
+function ajustarAnchoInput(input) {
+    // Si está vacío, usa la longitud del placeholder o un mínimo de 10
+    const longitud = input.value.length || input.placeholder.length || 10;
+    input.size = longitud + 2; // Añade un margen de 2 caracteres de holgura
+}
+
+// Aplica el ajuste al escribir
+inputEmpleado.addEventListener("input", () => ajustarAnchoInput(inputEmpleado));
+inputPuesto.addEventListener("input", () => ajustarAnchoInput(inputPuesto));
+
+// Aplica el ajuste inicial al cargar los datos de LocalStorage
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        ajustarAnchoInput(inputEmpleado);
+        ajustarAnchoInput(inputPuesto);
+    }, 50); // Pequeño retraso para asegurar que los valores ya se cargaron
+});
