@@ -115,10 +115,17 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
 }
 
 @media print {
+    /* Fuerza al navegador a mantener los colores de fondo y estilos en el PDF */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
     /* Oculta el botón de descarga y los inputs de fecha en el PDF */
     #btn-pdf, #periodo-inicio, #periodo-fin {
         display: none !important;
     }
+    
     /* Fuerza a que el contenedor medio se adapte al contenido sin scrolls */
     #card-middle {
         margin-top: 0 !important;
@@ -126,6 +133,7 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
         height: auto !important;
         overflow: visible !important;
     }
+    
     body {
         background: white;
     }
