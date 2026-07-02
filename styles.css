@@ -128,7 +128,7 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
     
     /* Fuerza a que el contenedor medio se adapte al contenido sin scrolls */
     #card-middle {
-        margin-top: 0 !important;
+       /* margin-top: 0 !important;*/
         margin-bottom: 0 !important;
         height: auto !important;
         overflow: visible !important;
