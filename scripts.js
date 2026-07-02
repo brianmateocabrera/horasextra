@@ -131,3 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.periodo?.fin) fin.value = data.periodo.fin;
     if (inicio.value && fin.value) generarFilas();
 });
+
+document.getElementById("btn-pdf").addEventListener("click", () => {
+    window.print();
+});
