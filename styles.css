@@ -135,8 +135,8 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
 
     /* Fuerza a que el contenedor medio fluya de forma natural sin solaparse */
     #card-middle {
-        margin-top: 20px !important; /* Separación opcional entre tarjetas */
-        margin-bottom: 20px !important;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
         height: auto !important;
         overflow: visible !important;
     }
