@@ -121,20 +121,28 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
         print-color-adjust: exact !important;
     }
 
-    /* Oculta el botón de descarga y los inputs de fecha en el PDF */
+    /* Oculta el botón de descarga */
     #btn-pdf{
         display: none !important;
     }
     
-    /* Fuerza a que el contenedor medio se adapte al contenido sin scrolls */
+    /* Resetea el posicionamiento fijo/absoluto de las tarjetas para el PDF */
+    #card-top, #card-middle, #card-bottom {
+        position: static !important;
+        width: 100% !important;
+        box-shadow: none !important;
+    }
+
+    /* Fuerza a que el contenedor medio fluya de forma natural sin solaparse */
     #card-middle {
-       /* margin-top: 0 !important;*/
-        margin-bottom: 0 !important;
+        margin-top: 20px !important; /* Separación opcional entre tarjetas */
+        margin-bottom: 20px !important;
         height: auto !important;
         overflow: visible !important;
     }
     
     body {
         background: white;
+        height: auto !important;
     }
 }
