@@ -113,3 +113,20 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
     color: var(--primario);
     font-weight: 700;
 }
+
+@media print {
+    /* Oculta el botón de descarga y los inputs de fecha en el PDF */
+    #btn-pdf, #periodo-inicio, #periodo-fin {
+        display: none !important;
+    }
+    /* Fuerza a que el contenedor medio se adapte al contenido sin scrolls */
+    #card-middle {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    body {
+        background: white;
+    }
+}
