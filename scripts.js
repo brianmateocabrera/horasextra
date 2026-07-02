@@ -151,5 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         ajustarAnchoInput(inputEmpleado);
         ajustarAnchoInput(inputPuesto);
+        ajustarAnchoInput(inicio);
+        ajustarAnchoInput(fin);
     }, 50); // Pequeño retraso para asegurar que los valores ya se cargaron
 });
