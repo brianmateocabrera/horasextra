@@ -149,6 +149,6 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
 
 #nombre-empleado, #puesto-empleado, #periodo-inicio, #periodo-fin {
     width: auto !important; 
-    min-width: 130px;       /* Un poco más de margen para los selectores de fecha */
+    min-width: 44px;
     display: inline-block;
 }
