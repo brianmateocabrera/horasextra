@@ -146,9 +146,3 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
         height: auto !important;
     }
 }
-
-#nombre-empleado, #puesto-empleado, #periodo-inicio, #periodo-fin {
-    width: auto !important; 
-    min-width: 44px;
-    display: inline-block;
-}
