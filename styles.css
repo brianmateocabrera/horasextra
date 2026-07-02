@@ -122,7 +122,7 @@ table tbody tr:hover { background-color: var(--tabla-hover); }
     }
 
     /* Oculta el botón de descarga y los inputs de fecha en el PDF */
-    #btn-pdf, #periodo-inicio, #periodo-fin {
+    #btn-pdf{
         display: none !important;
     }
     
